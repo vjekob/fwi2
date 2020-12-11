@@ -1,4 +1,4 @@
 interface IProduct
 {
-
+    procedure Use();
 }

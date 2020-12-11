@@ -1,6 +1,6 @@
 codeunit 50145 "Factory (Enum)"
 {
-    procedure CreateSomething(var Product: Interface IProduct)
+    procedure CreateProduct(var Product: Interface IProduct)
     var
         ProductType: Enum "Product Type";
     begin
