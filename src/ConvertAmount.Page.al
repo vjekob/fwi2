@@ -1,5 +1,6 @@
-page 50100 "Demo Convert Amount"
+page 50102 "Demo Convert Amount"
 {
+    Caption = 'Convert Amount';
     PageType = StandardDialog;
 
     layout
@@ -68,7 +69,12 @@ page 50100 "Demo Convert Amount"
     var
         ExchRateMgt: Codeunit "Demo Exchange Rate Management";
     begin
-        ToAmount := ExchRateMgt.ConvertByREST(FromAmount, FromCurrencyCode, ToCurrencyCode);
+        if (FromCurrencyCode = '') or (ToCurrencyCode = '') then begin
+            ToAmount := 0;
+            exit;
+        end;
+
+        ToAmount := ExchRateMgt.Convert(FromAmount, FromCurrencyCode, ToCurrencyCode);
         CurrPage.Update(false);
     end;
 }

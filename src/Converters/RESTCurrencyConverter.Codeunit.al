@@ -1,4 +1,4 @@
-codeunit 50102 "Demo REST Currency Converter" implements "Demo IConverter"
+codeunit 50104 "Demo REST Currency Converter" implements "Demo IConverter"
 {
     procedure Convert(Amount: Decimal; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10]): Decimal
     var
@@ -9,7 +9,6 @@ codeunit 50102 "Demo REST Currency Converter" implements "Demo IConverter"
         Token: JsonToken;
         Body: Text;
     begin
-        // For simplicity purpose, igoring that '' means LCY
         if (FromCurrencyCode = '') or (ToCurrencyCode = '') then
             exit(Amount);
 
@@ -23,6 +22,6 @@ codeunit 50102 "Demo REST Currency Converter" implements "Demo IConverter"
         end;
 
         Content.SelectToken(StrSubstNo('rates.%1', ToCurrencyCode), Token);
-        exit(Token.AsValue().AsDecimal());
+        exit(Amount * Token.AsValue().AsDecimal());
     end;
 }
