@@ -1,0 +1,74 @@
+page 50100 "Demo Convert Amount"
+{
+    PageType = StandardDialog;
+
+    layout
+    {
+        area(Content)
+        {
+            group(FromCurrency)
+            {
+                Caption = 'Convert from...';
+
+                field(FromAmount; FromAmount)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Amount';
+
+                    trigger OnValidate()
+                    begin
+                        ConvertAmount();
+                    end;
+                }
+
+                field(FromCurrencyCode; FromCurrencyCode)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Currency Code';
+                    TableRelation = Currency;
+
+                    trigger OnValidate()
+                    begin
+                        ConvertAmount();
+                    end;
+                }
+            }
+
+            group(ToCurrency)
+            {
+                field(ToAmount; ToAmount)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Amount';
+                    Editable = false;
+                }
+
+                field(ToCurrencyCode; ToCurrencyCode)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Currency Code';
+                    TableRelation = Currency;
+
+                    trigger OnValidate()
+                    begin
+                        ConvertAmount();
+                    end;
+                }
+            }
+        }
+    }
+
+    var
+        FromCurrencyCode: Code[10];
+        ToCurrencyCode: Code[10];
+        FromAmount: Decimal;
+        ToAmount: Decimal;
+
+    local procedure ConvertAmount()
+    var
+        ExchRateMgt: Codeunit "Demo Exchange Rate Management";
+    begin
+        ToAmount := ExchRateMgt.Convert(FromAmount, FromCurrencyCode, ToCurrencyCode);
+        CurrPage.Update(false);
+    end;
+}
