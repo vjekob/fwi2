@@ -1,4 +1,4 @@
-codeunit 50102 "Demo Currency Exchange Log"
+codeunit 50102 "Demo BC Logger" implements "Demo ILogger"
 {
     procedure Log(UserID: Text[50]; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10]; FromAmount: Decimal; ToAmount: Decimal)
     var

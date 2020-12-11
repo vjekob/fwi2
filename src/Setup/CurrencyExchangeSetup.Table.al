@@ -15,6 +15,18 @@ table 50102 "Demo Currency Exchange Setup"
             Caption = 'Currency Converter';
             DataClassification = CustomerContent;
         }
+
+        field(3; "Logger"; Enum "Demo Logger Type")
+        {
+            Caption = 'Logger';
+            DataClassification = CustomerContent;
+        }
+
+        field(4; "Permission Checker"; Enum "Demo Permission Checker Type")
+        {
+            Caption = 'Permission Checker';
+            DataClassification = CustomerContent;
+        }
     }
 
     keys

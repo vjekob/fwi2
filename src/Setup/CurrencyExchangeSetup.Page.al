@@ -12,7 +12,18 @@ page 50103 "Demo Currency Exchange Setup"
             group(General)
             {
                 Caption = 'General';
+
                 field(Converter; Rec."Currency Converter")
+                {
+                    ApplicationArea = All;
+                }
+
+                field(PermissionChecker; Rec."Permission Checker")
+                {
+                    ApplicationArea = All;
+                }
+
+                field(Logger; Rec.Logger)
                 {
                     ApplicationArea = All;
                 }

@@ -77,7 +77,7 @@ page 50102 "Demo Convert Amount"
         end;
 
         Setup.Get();
-        ToAmount := ExchRateMgt.Convert(FromAmount, FromCurrencyCode, ToCurrencyCode, Setup."Currency Converter");
+        ToAmount := ExchRateMgt.Convert(FromAmount, FromCurrencyCode, ToCurrencyCode, Setup."Currency Converter", Setup."Permission Checker", Setup.Logger);
         CurrPage.Update(false);
     end;
 }
