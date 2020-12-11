@@ -1,4 +1,4 @@
-codeunit 50100 "Demo Exchange Rate Management"
+codeunit 50101 "Demo BC Currency Converter" implements "Demo IConverter"
 {
     procedure Convert(Amount: Decimal; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10]): Decimal
     var
