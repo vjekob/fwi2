@@ -1,5 +1,6 @@
-page 50100 "Demo Convert Amount"
+page 50102 "Demo Convert Amount"
 {
+    Caption = 'Convert Amount';
     PageType = StandardDialog;
 
     layout

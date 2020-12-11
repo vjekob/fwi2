@@ -1,13 +1,23 @@
 codeunit 50100 "Demo Exchange Rate Management"
 {
-    procedure ConvertBySetup(Amount: Decimal; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10]): Decimal
+    var
+        ErrorNotAllowed: Label 'Currency exchange is not allowed for %1 from %2 to %3.';
+
+    procedure ConvertBySetup(Amount: Decimal; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10]) Result: Decimal
     var
         ExchRate: Record "Currency Exchange Rate";
+        Permission: Codeunit "Demo Curr. Exch. Permiss. Mgt.";
+        Log: Codeunit "Demo Currency Exchange Log";
     begin
-        exit(ExchRate.ExchangeAmtFCYToFCY(WorkDate(), FromCurrencyCode, ToCurrencyCode, Amount));
+        if not Permission.CanConvert(UserId, FromCurrencyCode, ToCurrencyCode) then
+            Error(ErrorNotAllowed, UserId, FromCurrencyCode, ToCurrencyCode);
+
+        Result := ExchRate.ExchangeAmtFCYToFCY(WorkDate(), FromCurrencyCode, ToCurrencyCode, Amount);
+
+        Log.Log(UserId, FromCurrencyCode, ToCurrencyCode, Amount, Result);
     end;
 
-    procedure ConvertByREST(Amount: Decimal; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10]): Decimal
+    procedure ConvertByREST(Amount: Decimal; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10]) Result: Decimal
     var
         Client: HttpClient;
         Response: HttpResponseMessage;
@@ -15,8 +25,12 @@ codeunit 50100 "Demo Exchange Rate Management"
         Content: JsonObject;
         Token: JsonToken;
         Body: Text;
+        Permission: Codeunit "Demo Curr. Exch. Permiss. Mgt.";
+        Log: Codeunit "Demo Currency Exchange Log";
     begin
-        // For simplicity purpose, igoring that '' means LCY
+        if not Permission.CanConvert(UserId, FromCurrencyCode, ToCurrencyCode) then
+            Error(ErrorNotAllowed, UserId, FromCurrencyCode, ToCurrencyCode);
+
         if (FromCurrencyCode = '') or (ToCurrencyCode = '') then
             exit(Amount);
 
@@ -30,6 +44,8 @@ codeunit 50100 "Demo Exchange Rate Management"
         end;
 
         Content.SelectToken(StrSubstNo('rates.%1', ToCurrencyCode), Token);
-        exit(Token.AsValue().AsDecimal());
+        Result := Token.AsValue().AsDecimal();
+
+        Log.Log(UserId, FromCurrencyCode, ToCurrencyCode, Amount, Result);
     end;
 }
