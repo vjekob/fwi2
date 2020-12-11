@@ -68,7 +68,7 @@ page 50100 "Demo Convert Amount"
     var
         ExchRateMgt: Codeunit "Demo Exchange Rate Management";
     begin
-        ToAmount := ExchRateMgt.Convert(FromAmount, FromCurrencyCode, ToCurrencyCode);
+        ToAmount := ExchRateMgt.ConvertByREST(FromAmount, FromCurrencyCode, ToCurrencyCode);
         CurrPage.Update(false);
     end;
 }
