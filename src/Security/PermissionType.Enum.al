@@ -2,12 +2,12 @@ enum 50100 "Demo Permission Type"
 {
     Extensible = false;
 
-    value(1; Allow)
+    value(0; Allow)
     {
         Caption = 'Allow';
     }
 
-    value(2; Deny)
+    value(1; Deny)
     {
         Caption = 'Deny';
     }
