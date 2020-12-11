@@ -10,5 +10,12 @@ codeunit 50144 Consumer
 
         // Use product
         Product.Use();
+
+
+
+        // ... or, alternatively:
+        if Factory.CreateProduct(Product) then begin
+            Product.Use();
+        end;
     end;
 }

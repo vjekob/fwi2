@@ -4,7 +4,7 @@ codeunit 50149 Factory
     var
         Switch: Option Option1,Option2,Option3;
 
-    procedure CreateProduct(var Product: Interface IProduct)
+    procedure CreateProduct(var Product: Interface IProduct): Boolean;
     var
         Product1: Codeunit "Example Product 1";
         Product2: Codeunit "Example Product 2";
@@ -17,6 +17,10 @@ codeunit 50149 Factory
                 Product := Product2;
             Switch::Option3:
                 Product := Product3;
+            else
+                exit(false);
         end;
+
+        exit(true);
     end;
 }
