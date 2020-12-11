@@ -1,0 +1,26 @@
+{
+  "id": "caaed2e8-e22c-4fcc-afd7-7dd3e42a7941",
+  "name": "FWI2",
+  "publisher": "Default publisher",
+  "version": "1.0.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [],
+  "screenshots": [],
+  "platform": "17.0.0.0",
+  "application": "17.0.0.0",
+  "idRanges": [
+    {
+      "from": 50100,
+      "to": 50149
+    }
+  ],
+  "contextSensitiveHelpUrl": "https://FWI2.com/help/",
+  "showMyCode": true,
+  "runtime": "6.0"
+}
