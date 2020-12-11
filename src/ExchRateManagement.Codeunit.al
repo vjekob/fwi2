@@ -6,10 +6,18 @@ codeunit 50100 "Demo Exchange Rate Management"
     begin
         CheckPermission(UserId, FromCurrencyCode, ToCurrencyCode);
 
-        // Converter is uninitialized, we need to somehow make a decision which one to use!
+        GetConverter(Converter);
         Result := Converter.Convert(Amount, FromCurrencyCode, ToCurrencyCode);
 
         Log(UserId, FromCurrencyCode, ToCurrencyCode, Amount, Result);
+    end;
+
+    local procedure GetConverter(var Converter: Interface "Demo IConverter")
+    var
+        Setup: Record "Demo Currency Exchange Setup";
+    begin
+        Setup.Get();
+        Converter := Setup."Currency Converter";
     end;
 
     local procedure CheckPermission(UserID: Text[50]; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10])
