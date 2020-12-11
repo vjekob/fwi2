@@ -2,6 +2,7 @@ page 50102 "Demo Convert Amount"
 {
     Caption = 'Convert Amount';
     PageType = StandardDialog;
+    UsageCategory = Tasks;
 
     layout
     {
