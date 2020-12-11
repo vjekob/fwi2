@@ -1,20 +1,12 @@
 codeunit 50100 "Demo Exchange Rate Management"
 {
-    var
-        ErrorNotAllowed: Label 'Currency exchange is not allowed for %1 from %2 to %3.';
-
     procedure ConvertBySetup(Amount: Decimal; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10]) Result: Decimal
     var
         ExchRate: Record "Currency Exchange Rate";
-        Permission: Codeunit "Demo Curr. Exch. Permiss. Mgt.";
-        Log: Codeunit "Demo Currency Exchange Log";
     begin
-        if not Permission.CanConvert(UserId, FromCurrencyCode, ToCurrencyCode) then
-            Error(ErrorNotAllowed, UserId, FromCurrencyCode, ToCurrencyCode);
-
+        CheckPermission(UserId, FromCurrencyCode, ToCurrencyCode);
         Result := ExchRate.ExchangeAmtFCYToFCY(WorkDate(), FromCurrencyCode, ToCurrencyCode, Amount);
-
-        Log.Log(UserId, FromCurrencyCode, ToCurrencyCode, Amount, Result);
+        Log(UserId, FromCurrencyCode, ToCurrencyCode, Amount, Result);
     end;
 
     procedure ConvertByREST(Amount: Decimal; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10]) Result: Decimal
@@ -25,11 +17,8 @@ codeunit 50100 "Demo Exchange Rate Management"
         Content: JsonObject;
         Token: JsonToken;
         Body: Text;
-        Permission: Codeunit "Demo Curr. Exch. Permiss. Mgt.";
-        Log: Codeunit "Demo Currency Exchange Log";
     begin
-        if not Permission.CanConvert(UserId, FromCurrencyCode, ToCurrencyCode) then
-            Error(ErrorNotAllowed, UserId, FromCurrencyCode, ToCurrencyCode);
+        CheckPermission(UserId, FromCurrencyCode, ToCurrencyCode);
 
         if (FromCurrencyCode = '') or (ToCurrencyCode = '') then
             exit(Amount);
@@ -46,6 +35,22 @@ codeunit 50100 "Demo Exchange Rate Management"
         Content.SelectToken(StrSubstNo('rates.%1', ToCurrencyCode), Token);
         Result := Token.AsValue().AsDecimal();
 
-        Log.Log(UserId, FromCurrencyCode, ToCurrencyCode, Amount, Result);
+        Log(UserId, FromCurrencyCode, ToCurrencyCode, Amount, Result);
+    end;
+
+    local procedure CheckPermission(UserID: Text[50]; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10])
+    var
+        Permission: Codeunit "Demo Curr. Exch. Permiss. Mgt.";
+        ErrorNotAllowed: Label 'Currency exchange is not allowed for %1 from %2 to %3.';
+    begin
+        if not Permission.CanConvert(UserId, FromCurrencyCode, ToCurrencyCode) then
+            Error(ErrorNotAllowed, UserId, FromCurrencyCode, ToCurrencyCode);
+    end;
+
+    local procedure Log(UserID: Text[50]; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10]; FromAmount: Decimal; ToAmount: Decimal)
+    var
+        Log: Codeunit "Demo Currency Exchange Log";
+    begin
+        Log.Log(UserId, FromCurrencyCode, ToCurrencyCode, FromAmount, ToAmount);
     end;
 }
