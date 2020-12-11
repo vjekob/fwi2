@@ -1,7 +1,7 @@
 {
   "id": "caaed2e8-e22c-4fcc-afd7-7dd3e42a7941",
-  "name": "FWI2",
-  "publisher": "Default publisher",
+  "name": "Vjeko.live Currency Conversion",
+  "publisher": "Vjeko.live",
   "version": "1.0.0.0",
   "brief": "",
   "description": "",
@@ -20,7 +20,7 @@
       "to": 50149
     }
   ],
-  "contextSensitiveHelpUrl": "https://FWI2.com/help/",
+  "contextSensitiveHelpUrl": "http://vjeko.live",
   "showMyCode": true,
   "runtime": "6.0"
 }
