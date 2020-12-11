@@ -33,7 +33,7 @@ codeunit 50100 "Demo Exchange Rate Management"
         end;
 
         Content.SelectToken(StrSubstNo('rates.%1', ToCurrencyCode), Token);
-        Result := Token.AsValue().AsDecimal();
+        Result := Amount * Token.AsValue().AsDecimal();
 
         Log(UserId, FromCurrencyCode, ToCurrencyCode, Amount, Result);
     end;
