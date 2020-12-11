@@ -1,23 +1,10 @@
 codeunit 50100 "Demo Exchange Rate Management"
 {
-    procedure Convert(Amount: Decimal; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10]) Result: Decimal
-    var
-        Converter: Interface "Demo IConverter";
+    procedure Convert(Amount: Decimal; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10]; Converter: Interface "Demo IConverter") Result: Decimal
     begin
         CheckPermission(UserId, FromCurrencyCode, ToCurrencyCode);
-
-        GetConverter(Converter);
         Result := Converter.Convert(Amount, FromCurrencyCode, ToCurrencyCode);
-
         Log(UserId, FromCurrencyCode, ToCurrencyCode, Amount, Result);
-    end;
-
-    local procedure GetConverter(var Converter: Interface "Demo IConverter")
-    var
-        Setup: Record "Demo Currency Exchange Setup";
-    begin
-        Setup.Get();
-        Converter := Setup."Currency Converter";
     end;
 
     local procedure CheckPermission(UserID: Text[50]; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10])

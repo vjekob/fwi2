@@ -69,13 +69,15 @@ page 50102 "Demo Convert Amount"
     local procedure ConvertAmount()
     var
         ExchRateMgt: Codeunit "Demo Exchange Rate Management";
+        Setup: Record "Demo Currency Exchange Setup";
     begin
         if (FromCurrencyCode = '') or (ToCurrencyCode = '') then begin
             ToAmount := 0;
             exit;
         end;
 
-        ToAmount := ExchRateMgt.Convert(FromAmount, FromCurrencyCode, ToCurrencyCode);
+        Setup.Get();
+        ToAmount := ExchRateMgt.Convert(FromAmount, FromCurrencyCode, ToCurrencyCode, Setup."Currency Converter");
         CurrPage.Update(false);
     end;
 }
