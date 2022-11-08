@@ -11,7 +11,6 @@ codeunit 50100 "Demo Exchange Rate Management"
 
     procedure ConvertByREST(Amount: Decimal; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10]) Result: Decimal
     var
-        Client: HttpClient;
         Response: HttpResponseMessage;
         Url: Label 'https://api.exchangeratesapi.io/latest?base=%1&symbols=%2', Locked = true;
         Content: JsonObject;
@@ -23,7 +22,7 @@ codeunit 50100 "Demo Exchange Rate Management"
         if (FromCurrencyCode = '') or (ToCurrencyCode = '') then
             exit(Amount);
 
-        Client.Get(StrSubstNo(Url, FromCurrencyCode, ToCurrencyCode), Response);
+        SendRequest(Url, Response);
         Response.Content.ReadAs(Body);
         Content.ReadFrom(Body);
 
@@ -52,5 +51,20 @@ codeunit 50100 "Demo Exchange Rate Management"
         Log: Codeunit "Demo Currency Exchange Log";
     begin
         Log.Log(UserId, FromCurrencyCode, ToCurrencyCode, FromAmount, ToAmount);
+    end;
+
+    local procedure SendRequest(Url: Text; var Response: HttpResponseMessage)
+    var
+        Client: HttpClient;
+        Request: HttpRequestMessage;
+        Headers: HttpHeaders;
+        MyApiKey: Label 'a1NGBy0hU2BhXHvHMVh7CCKUN8n1B4rb';
+    begin
+        Request.SetRequestUri(Url);
+        Request.Method := 'get';
+        Request.GetHeaders(Headers);
+        Headers.Add('apikey', MyApiKey);
+
+        Client.Send(Request, Response);
     end;
 }
