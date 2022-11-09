@@ -1,4 +1,4 @@
-codeunit 50107 "Demo Dependency Factory"
+codeunit 50107 "Demo Dependency Factory" implements IFactory
 {
     #region Factory Methods
     procedure CreateConverter(var Converter: Interface "Demo IConverter"): Boolean;

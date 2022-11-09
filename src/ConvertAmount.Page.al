@@ -69,21 +69,14 @@ page 50102 "Demo Convert Amount"
     local procedure ConvertAmount()
     var
         ExchRateMgt: Codeunit "Demo Exchange Rate Management";
-        DependencyFactory: Codeunit "Demo Dependency Factory";
-        Converter: Interface "Demo IConverter";
-        PermissionChecker: Interface "Demo IPermissionChecker";
-        Logger: Interface "Demo ILogger";
+        SetupBasedFactory: Codeunit "Demo Dependency Factory";
     begin
         if (FromCurrencyCode = '') or (ToCurrencyCode = '') then begin
             ToAmount := 0;
             exit;
         end;
 
-        DependencyFactory.CreateConverter(Converter);
-        DependencyFactory.CreatePermissionChecker(PermissionChecker);
-        DependencyFactory.CreateLogger(Logger);
-
-        ToAmount := ExchRateMgt.Convert(FromAmount, FromCurrencyCode, ToCurrencyCode, Converter, PermissionChecker, Logger);
+        ToAmount := ExchRateMgt.Convert(FromAmount, FromCurrencyCode, ToCurrencyCode, SetupBasedFactory);
         CurrPage.Update(false);
     end;
 }
