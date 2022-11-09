@@ -1,4 +1,0 @@
-interface IProduct
-{
-    procedure Use();
-}
