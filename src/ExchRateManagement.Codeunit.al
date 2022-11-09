@@ -12,7 +12,7 @@ codeunit 50100 "Demo Exchange Rate Management"
     procedure ConvertByREST(Amount: Decimal; FromCurrencyCode: Code[10]; ToCurrencyCode: Code[10]) Result: Decimal
     var
         Response: HttpResponseMessage;
-        Url: Label 'https://api.exchangeratesapi.io/latest?base=%1&symbols=%2', Locked = true;
+        Url: Label 'https://api.apilayer.com/exchangerates_data/latest?base=%1&symbols=%2', Locked = true;
         Content: JsonObject;
         Token: JsonToken;
         Body: Text;
@@ -22,7 +22,7 @@ codeunit 50100 "Demo Exchange Rate Management"
         if (FromCurrencyCode = '') or (ToCurrencyCode = '') then
             exit(Amount);
 
-        SendRequest(Url, Response);
+        SendRequest(StrSubstNo(Url, FromCurrencyCode, ToCurrencyCode), Response);
         Response.Content.ReadAs(Body);
         Content.ReadFrom(Body);
 
